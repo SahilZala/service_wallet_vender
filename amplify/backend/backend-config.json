@@ -1,0 +1,39 @@
+{
+  "auth": {
+    "cognitod545c6de": {
+      "service": "Cognito",
+      "serviceType": "managed",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "analytics": {
+    "servicewalletvender": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "api": {
+    "servicewalletvender": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "description": "description"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
+    }
+  },
+  "storage": {
+    "s31c299f0c": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-servicewalletvender-dev-221605-authRole",
+      "UnauthRoleArn": "arn:aws:iam::007146859370:role/amplify-servicewalletvender-dev-221605-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::007146859370:role/amplify-servicewalletvender-dev-221605-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-servicewalletvender-dev-221605-deployment",
+      "UnauthRoleName": "amplify-servicewalletvender-dev-221605-unauthRole",
+      "StackName": "amplify-servicewalletvender-dev-221605",
+      "StackId": "arn:aws:cloudformation:ap-south-1:007146859370:stack/amplify-servicewalletvender-dev-221605/f3a0bd80-80f6-11eb-868e-0a2584030e12",
+      "AmplifyAppId": "dkudtr5d5mk0l"
+    },
+    "categories": {
+      "auth": {
+        "cognitod545c6de": {}
+      }
+    }
+  }
+}

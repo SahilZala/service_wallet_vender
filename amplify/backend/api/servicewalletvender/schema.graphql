@@ -1,0 +1,44 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type UserData @model {
+  id: ID!
+  userid: String
+  name: String
+  mail: String
+  city: String
+  address: String
+  lat: String
+  log: String
+  mobileno: String
+  time: String
+  date: String
+  profile: String
+  activation: String
+}
+
+type Profession @model {
+  id: ID!
+  professionid: String
+  aid: String
+  uid: String
+  mobileno: String
+  profession: String
+}
+
+type Approvel @model {
+  id: ID!
+  approvelid: String
+  aid: String
+  uid: String
+  mobileno: String
+  panurl: String
+  adharurl: String
+  adharbackurl: String
+  date: String
+  time: String
+  approved: String
+}

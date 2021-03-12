@@ -1,0 +1,21 @@
+{
+    "appName": "servicewalletvender",
+    "roleName": "pinpointLambdaRole6ca4b488",
+    "cloudformationPolicyName": "cloudformationPolicy6ca4b488",
+    "cloudWatchPolicyName": "cloudWatchPolicy6ca4b488",
+    "pinpointPolicyName": "pinpointPolicy6ca4b488",
+    "authPolicyName": "pinpoint_amplify_6ca4b488",
+    "unauthPolicyName": "pinpoint_amplify_6ca4b488",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
