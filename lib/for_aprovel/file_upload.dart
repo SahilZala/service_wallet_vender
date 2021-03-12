@@ -8,6 +8,7 @@ import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service_wallet_vender/DatabaseConection/create_approvel.dart';
+import 'package:service_wallet_vender/home/home_dashbord.dart';
 
 import '../last_page.dart';
 import 'package:service_wallet_vender/DatabaseConection/upload_image.dart';
@@ -16,22 +17,24 @@ class ImageUpload extends StatelessWidget {
 
   String aid,uid,mobileno;
 
+  Map data;
 
-  ImageUpload(this.aid, this.uid, this.mobileno);
+  ImageUpload(this.aid, this.uid, this.mobileno, this.data);
 
   @override
   Widget build(BuildContext context) {
-    return ImageUploads(aid,uid,mobileno);
+    return ImageUploads(aid,uid,mobileno,data);
   }
 }
 
 class ImageUploads extends StatefulWidget {
 
   String aid,uid,mobileno;
+  Map data;
   @override
-  _ImageUploadsState createState() => _ImageUploadsState(aid,uid,mobileno);
+  _ImageUploadsState createState() => _ImageUploadsState(aid,uid,mobileno,data);
 
-  ImageUploads(this.aid, this.uid, this.mobileno);
+  ImageUploads(this.aid, this.uid, this.mobileno,this.data);
 
 
 }
@@ -40,8 +43,9 @@ class _ImageUploadsState extends State<ImageUploads> {
 
   String aid,uid,mobileno;
 
+  Map data;
 
-  _ImageUploadsState(this.aid, this.uid, this.mobileno);
+  _ImageUploadsState(this.aid, this.uid, this.mobileno,this.data);
 
   int _selectedIndex = 1;
   List<Widget> _widgetOptions;
@@ -70,6 +74,10 @@ class _ImageUploadsState extends State<ImageUploads> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeDashbord(data)));
+    return true;
+  }
   File _pan_image = null,_adhar_image = null,_adhar_back_image = null;
 
   _imgFromCamera(int i) async {
@@ -96,64 +104,67 @@ class _ImageUploadsState extends State<ImageUploads> {
       getHome(),
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
 
-        backgroundColor:Color.fromRGBO(0,0,102,1),
-        elevation:14.0,
+          backgroundColor:Color.fromRGBO(0,0,102,1),
+          elevation:14.0,
 
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.notifications_rounded),
-            tooltip: 'Comment Icon',
-            onPressed: () {},
-          ), //IconButton
-          IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Setting Icon',
-            onPressed: ()=>Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context)=>Last_Page(),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.notifications_rounded),
+              tooltip: 'Comment Icon',
+              onPressed: () {},
+            ), //IconButton
+            IconButton(
+              icon: Icon(Icons.menu),
+              tooltip: 'Setting Icon',
+              onPressed: ()=>Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context)=>Last_Page(),
+                ),
               ),
-            ),
-          ), //IconButton
-        ], //<Widget>[]
-      ),
-      body: Stack(
-        children: [
-          Container(
-            margin: new EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            ), //IconButton
+          ], //<Widget>[]
+        ),
+        body: Stack(
+          children: [
+            Container(
+              margin: new EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
 
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Center(
-                      child: _widgetOptions.elementAt(_selectedIndex),
-                    ),
-                  ],
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: _widgetOptions.elementAt(_selectedIndex),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
 
 
 
-          Center(child: show_progress == 1 ?  Container(
-            height: 50,
-            width: 50,
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.blue[100],
-              strokeWidth: 6,
-              valueColor: new AlwaysStoppedAnimation<Color>(Color.fromRGBO(0, 0, 102, 1),),
+            Center(child: show_progress == 1 ?  Container(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.blue[100],
+                strokeWidth: 6,
+                valueColor: new AlwaysStoppedAnimation<Color>(Color.fromRGBO(0, 0, 102, 1),),
 
-            ),
-          ) : Center(child: SizedBox(),),)
-        ],
+              ),
+            ) : Center(child: SizedBox(),),)
+          ],
+        ),
       ),
     );
   }

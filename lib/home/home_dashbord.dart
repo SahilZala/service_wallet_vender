@@ -416,7 +416,7 @@ class _HomeDashbord extends State<HomeDashbord>
       }
       else{
         setState(() {
-          _for_approve = 1;
+          _for_approve = 0;
         });
       }
 
@@ -459,7 +459,7 @@ class _HomeDashbord extends State<HomeDashbord>
   void openDocumnetUpload(){
 
     if(_for_approve == 0){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>ImageUpload(data['id'],data['userid'],data['mobileno'])));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ImageUpload(data['id'],data['userid'],data['mobileno'],data)));
     }
     else{
       Fluttertoast.showToast(
