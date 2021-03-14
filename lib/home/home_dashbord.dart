@@ -7,9 +7,9 @@ import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service_wallet_vender/DatabaseConection/create_approvel.dart';
-import 'file:///C:/Users/SAHIL/Desktop/service_wallet_vender/lib/for_aprovel/file_upload.dart';
+import 'package:service_wallet_vender/for_aprovel/file_upload.dart';
 import 'package:service_wallet_vender/last_page.dart';
-
+import 'package:service_wallet_vender/service_app/description_vendor.dart';
 import 'TrainCenter.dart';
 
 class HomeDashbord extends StatefulWidget
@@ -23,7 +23,7 @@ class HomeDashbord extends StatefulWidget
 
 class _HomeDashbord extends State<HomeDashbord>
 {
-  Map data;
+  Map data,approvel_data;
 
   _HomeDashbord(this.data);
 
@@ -82,6 +82,11 @@ class _HomeDashbord extends State<HomeDashbord>
         elevation:14.0,
 
         actions: <Widget>[
+
+          IconButton(icon: Icon(Icons.refresh,color: Colors.white,), onPressed: (){
+            checkAprovel();
+          }),
+
           IconButton(
             icon: Icon(Icons.notifications_rounded),
             tooltip: 'Comment Icon',
@@ -154,7 +159,10 @@ class _HomeDashbord extends State<HomeDashbord>
         getMenuBanners("Onboarding Documents","Pan, Address Proof, Documents for loan",openDocumnetUpload,),
         getMenuBanners("About me","Details about me",openTrainCenter),
         getMenuBanners("Bank Details","Payout will be deposited in your account",openTrainCenter),
-        _for_approve == 0 ? getContainerForPrice() : approvel_status != null ? approvel_status['approved'] == "true" ? approvelDone() : SizedBox() : SizedBox(),
+        _for_approve == 0 ? getContainerForPrice() : approvel_status != null ? approvel_status['approved'] == "true" ?Column(children: [
+          getMenuBanners("Create Services","create services which you can",openCreateService),
+          approvelDone(),
+        ],) : SizedBox() : SizedBox(),
       ],
     );
   }
@@ -386,15 +394,9 @@ class _HomeDashbord extends State<HomeDashbord>
 
               SizedBox(height: 5),
 
-
-
-
             ],
           ),
-          
-
         ),
-
       ],
     );
   }
@@ -405,11 +407,9 @@ class _HomeDashbord extends State<HomeDashbord>
   {
     CreateApprovel ca = new CreateApprovel("approvelid", "aid", "uid", "mobileno", "panurl", "adharurl", "adharbackurl", "date", "time", "approved");
     ca.checkMobile(data['mobileno']).then((value){
-
-
       if(value != null){
         setState(() {
-
+          approvel_data = value;
           approvel_status = value;
           _for_approve = 1;
         });
@@ -456,6 +456,11 @@ class _HomeDashbord extends State<HomeDashbord>
   void openTrainCenter(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>TrainCenter()));
   }
+
+  void openCreateService(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>DescriptionVendor(approvel_data['id'],data['id'],data['userid'],data['mobileno'])));
+  }
+
   void openDocumnetUpload(){
 
     if(_for_approve == 0){
@@ -473,6 +478,7 @@ class _HomeDashbord extends State<HomeDashbord>
       );
     }
   }
+
 
 
   Widget approvelDone()

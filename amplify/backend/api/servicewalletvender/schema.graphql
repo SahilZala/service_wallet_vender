@@ -42,3 +42,19 @@ type Approvel @model {
   time: String
   approved: String
 }
+
+type Service @model {
+  id: ID!
+  approvelid: String
+  aid: String
+  uid: String
+  mobileno: String
+  cartype: String
+  servicename: String
+  description: String
+  date: String
+  time: String
+  urls: [String]
+  price: String
+  activation: String
+}
