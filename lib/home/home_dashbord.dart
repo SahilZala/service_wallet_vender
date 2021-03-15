@@ -1,9 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service_wallet_vender/DatabaseConection/create_approvel.dart';
@@ -11,6 +14,7 @@ import 'package:service_wallet_vender/for_aprovel/file_upload.dart';
 import 'package:service_wallet_vender/last_page.dart';
 import 'package:service_wallet_vender/service_app/description_vendor.dart';
 import 'TrainCenter.dart';
+import 'package:service_wallet_vender/DatabaseConection/fetch_my_service.dart';
 
 class HomeDashbord extends StatefulWidget
 {
@@ -65,11 +69,37 @@ class _HomeDashbord extends State<HomeDashbord>
     super.initState();
 
     checkAprovel();
+
+    setState(() {
+      fms.getData(this.data['userid'],this.data['mobileno']).then((value){
+
+        service_i_have.clear();
+        setState(() {
+          for(int i=0;i<value.length;i++)
+          {
+            service_i_have.add(getListView(value.elementAt(i),i));
+          }
+        });
+
+      });
+    });
+    get_data();
+
+
+
   }
+  FetchMyService fms = new FetchMyService();
+
+
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+
+
     _widgetOptions = <Widget>[
-      Text('JOBS', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+
+     getListOfService(),
       getHome(),
       getMapScreen()
     ];
@@ -207,20 +237,12 @@ class _HomeDashbord extends State<HomeDashbord>
               child: CircleAvatar(
                 radius: 55,
                 backgroundColor: Color(0xffFDCF09),
-                child: _image != null
-                    ? ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.file(
-                    _image,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )
-                    : Container(
+                child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(data['profile'])
+                      image: NetworkImage(data['profile']),onError: (object,val){
+                        return NetworkImage("https://cdn.dnaindia.com/sites/default/files/styles/full/public/2020/06/13/909277-ima-pop.jpg");
+                      }
                     ),
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(50)),
@@ -524,5 +546,83 @@ class _HomeDashbord extends State<HomeDashbord>
     );
   }
 
+
+
+  List<Widget> service_i_have = new List();
+
+  void get_data()
+    async {
+      const onCreateMessage = '''subscription onCreateService {
+      onCreateService {
+        servicename
+      }
+    }''';
+
+      var a = await Amplify.API.subscribe(request: GraphQLRequest(document: onCreateMessage),
+          onData: (data){ setState(() {
+            fms.getData(this.data['userid'],this.data['mobileno']).then((value){
+
+              service_i_have.clear();
+              setState(() {
+                for(int i=0;i<value.length;i++)
+                {
+                  service_i_have.add(getListView(value.elementAt(i),i));
+                }
+              });
+
+            });
+          });
+        }, onEstablished: (){print("establish");}, onError: (onError){print(onError);}, onDone: (){});
+      print(a.hashCode);
+    }
+
+
+    Widget getListOfService()
+    {
+      return Column(children: service_i_have,);
+    }
+
+    Widget getListView(Map val,int index)
+    {
+      return Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        child: Container(
+          color: Colors.white,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.indigoAccent,
+              child: Text((index+1).toString()),
+              foregroundColor: Colors.white,
+            ),
+            title: Text(val["servicename"]),
+            subtitle: Text(val["cartype"]),
+          ),
+        ),
+        actions: <Widget>[
+          IconSlideAction(
+            caption: 'Deactivate',
+            color: Colors.blue,
+            icon: Icons.close,
+            onTap: () => {}
+          ),
+
+        ],
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            caption: 'Edit',
+            color: Colors.black45,
+            icon: Icons.edit,
+            onTap: () => {}
+          ),
+          IconSlideAction(
+            caption: 'Delete',
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () => {}
+          ),
+        ],
+      );
+    }
 }
 

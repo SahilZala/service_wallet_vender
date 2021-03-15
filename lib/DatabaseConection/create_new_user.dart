@@ -87,6 +87,8 @@ class CreateNewUser
     }
   }
 
+
+
   Future<Map> checkMobile(String mobileno)
   async {
     try {
@@ -147,6 +149,58 @@ class CreateNewUser
     }
   }
 
+
+  Future<List> getData()
+  async {
+    try {
+      Map userData = null;
+      String graphQLDocument = '''query ListUserDatas {
+      listUserDatas {
+        items {
+          id
+          userid
+          name
+          mail
+          city
+          address
+          lat
+          log
+          mobileno
+          time
+          date
+          profile
+          activation
+        }
+        nextToken
+      }
+    }''';
+
+      var operation = Amplify.API.query(
+          request: GraphQLRequest<String>(
+            document: graphQLDocument,
+          ));
+
+      var response = await operation.response;
+      var data = response.data;
+
+
+
+      print('Query result: ' + data);
+      if(response.data != null)
+      {
+        Map val = json.decode(response.data);
+        List data_list = val['listUserDatas']['items'];
+
+        return data_list;
+      }
+      else {
+        return null;
+      }
+    } on ApiException catch (e) {
+      print('Query failed: $e');
+    }
+  }
+
   Future<String> uploadProfileImage(File _image)
   async {
     final key = new DateTime.now().toString();
@@ -184,5 +238,18 @@ class CreateNewUser
   void setProfile(String profile)
   {
     this.profile = profile;
+  }
+
+
+  void getStreamData()
+  {
+    const onCreateMessage = '''subscription onCreateUserData {
+      onCreateUserData {
+        id
+      }
+    }''';
+
+    var a = Amplify.API.subscribe(request: GraphQLRequest(document: onCreateMessage), onData: (data){print(data.data);}, onEstablished: (){print("establish");}, onError: (onError){print(onError);}, onDone: (){});
+    print(a.hashCode);
   }
 }

@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -21,6 +23,8 @@ class _LoginSignup extends State<LoginSignup>
 
   String _country_code="+91";
   String _mobile_no = "";
+
+  CreateNewUser cnu1 = CreateNewUser("","","","","","","","","","","","");
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +165,8 @@ class _LoginSignup extends State<LoginSignup>
                              borderRadius: BorderRadius.circular(5)
                            ),
                          )
-                       )
+                       ),
+
                      ],
                    ),
                  ),
@@ -176,11 +181,13 @@ class _LoginSignup extends State<LoginSignup>
 
   final _formKey = GlobalKey<FormState>();
 
+
   @override
   void initState() {
     super.initState();
     _scrollController = new ScrollController();
     _editingController = new TextEditingController();
+    //cnu1.getStreamData();
   }
 
 
