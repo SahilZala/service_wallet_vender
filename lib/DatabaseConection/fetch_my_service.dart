@@ -16,14 +16,16 @@ class FetchMyService
           approvelid
           aid
           uid
+          title
           mobileno
           cartype
           servicename
           description
           date
           time
-          urls
           price
+          discount
+          serviceid
           activation
         }
       }

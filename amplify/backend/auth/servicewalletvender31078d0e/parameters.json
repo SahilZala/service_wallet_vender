@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "servicewalletvender_identitypool_bd05ea4f",
+    "identityPoolName": "servicewalletvender31078d0e_identitypool_31078d0e",
     "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "cognitbbc6d3a8",
-    "userPoolName": "cognitod545c6de_userpool_bbc6d3a8",
+    "resourceNameTruncated": "servic31078d0e",
+    "userPoolName": "servicewalletvender31078d0e_userpool_31078d0e",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,11 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "cognitbbc6d3a8_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "servic31078d0e_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
+    "sharedId": "31078d0e",
+    "resourceName": "servicewalletvender31078d0e",
     "authSelections": "identityPoolAndUserPool",
-    "resourceName": "cognitod545c6de",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -43,5 +44,10 @@
             "UnauthRole",
             "Arn"
         ]
-    }
+    },
+    "useDefault": "default",
+    "userPoolGroupList": [],
+    "serviceName": "Cognito",
+    "usernameCaseSensitive": false,
+    "dependsOn": []
 }

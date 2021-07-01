@@ -143,7 +143,7 @@ class CreateNewUser
         }
       }
 
-      print('Query result: ' + data);
+      //print('Query result: ' + data);
     } on ApiException catch (e) {
       print('Query failed: $e');
     }
@@ -252,4 +252,76 @@ class CreateNewUser
     var a = Amplify.API.subscribe(request: GraphQLRequest(document: onCreateMessage), onData: (data){print(data.data);}, onEstablished: (){print("establish");}, onError: (onError){print(onError);}, onDone: (){});
     print(a.hashCode);
   }
+
+
+  void checkMobileNoNew() async{
+    try {
+      Map userData = null;
+      String graphQLDocument = '''query MyQuery {
+      listUserDatas(filter: {mobileno: {eq: "+918459888284"}}) {
+        items {
+          activation
+          address
+          city
+          createdAt
+          date
+          id
+          lat
+          log
+          mail
+          mobileno
+          name
+          profile
+          time
+          updatedAt
+          userid
+        }
+      }
+    }
+    ''';
+
+      var operation = Amplify.API.query(
+          request: GraphQLRequest<String>(
+            document: graphQLDocument,
+          ));
+
+      var response = await operation.response;
+      var data = response.data;
+
+
+      print( data);
+    } on ApiException catch (e) {
+      print('Query failed: $e');
+    }
+  }
+
+  void pushTodo()
+  async {
+    try {
+      String graphQLDocument =
+      '''mutation CreateTodo(\$name: String!, \$description: String) {
+              createTodo(input: {name: \$name, description: \$description}) {
+                id
+                name
+                description
+              }
+        }''';
+      var variables = {
+        "name": "my first todo",
+        "description": "todo description",
+      };
+      var request = GraphQLRequest<String>(document: graphQLDocument, variables: variables);
+
+      var operation = Amplify.API.mutate(request: request);
+      var response = await operation.response;
+
+      var data = response.data;
+
+      print('Mutation result: $data');
+    } on ApiException catch (e) {
+      print('Mutation failed: $e');
+    }
+  }
+
 }
+

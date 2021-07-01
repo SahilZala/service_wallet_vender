@@ -48,13 +48,49 @@ type Service @model {
   approvelid: String
   aid: String
   uid: String
+  title: String
   mobileno: String
   cartype: String
   servicename: String
   description: String
   date: String
   time: String
-  urls: [String]
   price: String
+  discount: String
+  serviceid: String
   activation: String
+}
+
+type ClientData @model {
+  id: ID!
+  userid: String
+  name: String
+  mail: String
+  address: String
+  lat: String
+  log: String
+  mobileno: String
+  time: String
+  date: String
+  profile: String
+  activation: String
+}
+
+type Orders @model {
+    id: ID!
+    orderid: String
+    userid: String
+    mobileno: String
+    address: String
+    lat: String
+    log: String
+    servicename: String
+    price: String
+    ontime: String
+    ondate: String
+    status: String
+    takenbyid: String
+    time: String
+    date: String
+    activation: String
 }

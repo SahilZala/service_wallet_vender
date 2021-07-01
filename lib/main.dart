@@ -126,10 +126,6 @@ void _configureAmplify() async {
       await Amplify.configure(amplifyconfig).whenComplete(() async {
         print("configure succesfully");
 
-
-
-
-
         Fluttertoast.showToast(
           msg: "Configured succesfully",
           toastLength: Toast.LENGTH_SHORT,
@@ -151,7 +147,7 @@ void _configureAmplify() async {
                 )
         );
 
-      });
+      }).onError((error, stackTrace) => print(error));
 
     } on AmplifyAlreadyConfiguredException {
       print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");

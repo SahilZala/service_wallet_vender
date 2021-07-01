@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:amplify_api/amplify_api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:service_wallet_vender/home/home_dashbord.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +31,7 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
 
   _DescriptionVendorState(this.approvelid, this.aid, this.uid, this.mobileno);
 
-  TextEditingController _textEditingController;
+  TextEditingController _textEditingController,_textEditingControllertitle;
 
 
 
@@ -55,6 +56,31 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
                         key: _formKey,
                         child: Column(
                           children: [
+
+                            SizedBox(height: 0,),
+                            TextFormField (
+                              controller: _textEditingControllertitle,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              maxLength: 50,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1)
+                                ),
+                                hintText: "Service title",
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1,color: Color.fromRGBO(0,0,102, 1))
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+
                             Container(
                               width: MediaQuery.of(context).size.width,
                               child: DropdownButtonHideUnderline(
@@ -96,13 +122,14 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(width: 1)
                                 ),
+                                hintText: "description",
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(width: 1,color: Color.fromRGBO(0,0,102, 1))
                                 ),
                               ),
                             ),
                             SizedBox(height: 60,),
-                            getContainerForPrice(),
+
                           ],
                         ),
                       ),
@@ -110,6 +137,7 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
                   ],),
               )
           ),
+          getContainerForPrice(),
         ],
       ),
     );
@@ -134,6 +162,7 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
     _selectedService = _dropdownItem[0].value;
 
     _textEditingController = new TextEditingController();
+    _textEditingControllertitle = new TextEditingController();
   }
 
 
@@ -177,8 +206,8 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
   Widget getContainerForPrice()
   {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.end,
-      // crossAxisAlignment: CrossAxisAlignment.end,
+       mainAxisAlignment: MainAxisAlignment.end,
+       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
           margin: EdgeInsets.fromLTRB(20, 20, 20, 15),
@@ -198,7 +227,8 @@ class _DescriptionVendorState extends State<DescriptionVendor> {
                         elevation: 0,
                         onPressed: (){
                           if(_formKey.currentState.validate()){
-                            CreateNewService cns = new CreateNewService(approvelid,aid,uid,mobileno,_selectedCompany.name,_selectedService.service,_textEditingController.text,"date","time","0","true",["url1","url2"]);
+                            CreateNewService cns = new CreateNewService(approvelid,aid,uid,mobileno,_selectedCompany.name,_selectedService.service,_textEditingController.text,"date","time","0","true",_textEditingControllertitle.text,"0",UUID.getUUID());
+
                             cns.create_new_service().then((value){
                               if(value != null)
                               {
@@ -274,15 +304,15 @@ class ServiceName {
   static List<ServiceName> getServices() {
     return <ServiceName>[
       ServiceName(0, 'Service Name'),
-      ServiceName(1, 'Car Washing'),
-      ServiceName(2, 'Denting and Painting'),
-      ServiceName(3, 'Tyres and Wheel Care'),
-      ServiceName(4, 'Batteries'),
-      ServiceName(5, 'Lights and Fitments'),
-      ServiceName(6, 'Windshields and Glass'),
+      ServiceName(1, 'Car Repairing'),
+      ServiceName(2, 'Car Washing'),
+      ServiceName(3, 'Denting and Painting'),
+      ServiceName(4, 'Tyres and Wheel Care'),
+      ServiceName(5, 'Batteries'),
+      ServiceName(6, 'Lights and Fitments'),
+      ServiceName(7, 'Windshields and Glass'),
+      ServiceName(8, 'Equipment Installing'),
+      ServiceName(9, 'Tyres and Wheel Care'),
     ];
   }
-
-
-
 }

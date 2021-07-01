@@ -5,8 +5,8 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 class CreateNewService{
-  String approvelid,aid,uid,mobileno,cartype,servicename,description,date,time,price,activation;
-  List<String> urls;
+  String approvelid,aid,uid,mobileno,cartype,servicename,description,date,time,price,serviceid,activation;
+  String title,discount;
 
   CreateNewService(
       this.approvelid,
@@ -20,26 +20,30 @@ class CreateNewService{
       this.time,
       this.price,
       this.activation,
-      this.urls);
+      this.title,
+      this.discount,
+      this.serviceid
+      );
 
   Future<Map> create_new_service()
   async {
     try{
       String graphQLDocument =
-      '''mutation CreateService(\$approvelid: String, \$aid: String, \$uid: String, \$mobileno: String, \$cartype: String, \$servicename: String, \$description: String, \$date: String, \$time: String, \$urls: [String], \$price: String, \$activation: String) {
-              createService(input: {approvelid: \$approvelid, aid: \$aid, uid: \$uid, mobileno: \$mobileno, cartype: \$cartype, servicename: \$servicename, description: \$description, date: \$date, time: \$time, urls: \$urls, price: \$price, activation: \$activation}) {
+      '''mutation CreateService(\$approvelid: String, \$aid: String, \$uid: String,\$title: String, \$mobileno: String, \$cartype: String, \$servicename: String, \$description: String, \$date: String, \$time: String, \$price: String, \$discount: String, \$serviceid: String, \$activation: String) {
+              createService(input: {approvelid: \$approvelid, aid: \$aid, uid: \$uid, title: \$title, mobileno: \$mobileno, cartype: \$cartype, servicename: \$servicename, description: \$description, date: \$date, time: \$time, price: \$price,discount: \$discount, serviceid: \$serviceid, activation: \$activation}) {
                 id
                 approvelid
                 aid
                 uid
+                title
                 mobileno
                 cartype
                 servicename
                 description
                 date
                 time
-                urls
                 price
+                serviceid
                 activation
               }
         }''';
@@ -50,14 +54,16 @@ class CreateNewService{
             'approvelid': approvelid,
             'aid': aid,
             'uid': uid,
+            'title': title,
             'mobileno': mobileno,
             'cartype': cartype,
             'servicename': servicename,
             'description': description,
             'date': date,
             'time': time,
-            'urls': urls,
             'price': price,
+            'discount': discount,
+            'serviceid': serviceid,
             'activation': activation,
           }));
 
